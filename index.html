@@ -4,11 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Mathe-Klassen-App</title>
-
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
   import { getDatabase, ref, set, get, onValue, remove } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
-
   const firebaseConfig = {
     apiKey: "AIzaSyDj6zotxKjmfpY2XK_2zMS_z0xzmhmVmF4",
     authDomain: "arbeitsblatt1-9dc45.firebaseapp.com",
@@ -18,51 +16,43 @@
     messagingSenderId: "46180644088",
     appId: "1:46180644088:web:5bcdbe793e5355ab00370d"
   };
-
   const app = initializeApp(firebaseConfig);
   const db = getDatabase(app);
-
-  window._db = db;
-  window._ref = ref;
-  window._set = set;
-  window._get = get;
-  window._onValue = onValue;
-  window._remove = remove;
+  window._db = db; window._ref = ref; window._set = set;
+  window._get = get; window._onValue = onValue; window._remove = remove;
   window._dbReady = true;
   document.dispatchEvent(new Event('db-ready'));
 </script>
-
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   :root {
-    --bg: #ffffff; --bg2: #f5f5f3; --bg3: #eeede9;
-    --text: #1a1a18; --text2: #666660; --text3: #999990;
-    --border: rgba(0,0,0,0.12); --border2: rgba(0,0,0,0.22);
-    --green-bg: #EAF3DE; --green-text: #3B6D11;
-    --red-bg: #FCEBEB; --red-text: #A32D2D;
-    --blue-bg: #E6F1FB; --blue-text: #185FA5;
-    --radius: 8px; --radius-lg: 12px;
+    --bg:#ffffff; --bg2:#f5f5f3; --bg3:#eeede9;
+    --text:#1a1a18; --text2:#666660; --text3:#999990;
+    --border:rgba(0,0,0,0.12); --border2:rgba(0,0,0,0.22);
+    --green-bg:#EAF3DE; --green-text:#3B6D11;
+    --red-bg:#FCEBEB; --red-text:#A32D2D;
+    --radius:8px; --radius-lg:12px;
   }
   @media (prefers-color-scheme: dark) {
     :root {
-      --bg: #1e1e1c; --bg2: #2a2a28; --bg3: #333330;
-      --text: #f0efe9; --text2: #aaa99e; --text3: #77766e;
-      --border: rgba(255,255,255,0.12); --border2: rgba(255,255,255,0.22);
-      --green-bg: #173404; --green-text: #C0DD97;
-      --red-bg: #501313; --red-text: #F7C1C1;
-      --blue-bg: #042C53; --blue-text: #B5D4F4;
+      --bg:#1e1e1c; --bg2:#2a2a28; --bg3:#333330;
+      --text:#f0efe9; --text2:#aaa99e; --text3:#77766e;
+      --border:rgba(255,255,255,0.12); --border2:rgba(255,255,255,0.22);
+      --green-bg:#173404; --green-text:#C0DD97;
+      --red-bg:#501313; --red-text:#F7C1C1;
     }
   }
   body { font-family: system-ui, -apple-system, sans-serif; background: var(--bg3); color: var(--text); min-height: 100vh; }
   .container { max-width: 720px; margin: 0 auto; padding: 1.5rem 1rem; }
+  h1 { font-size: 20px; font-weight: 500; margin-bottom: 1.5rem; }
   .nav { display: flex; gap: 8px; margin-bottom: 1.5rem; }
-  .nav button { flex: 1; padding: 10px; border-radius: var(--radius); border: 0.5px solid var(--border2); background: var(--bg); color: var(--text2); font-size: 14px; cursor: pointer; transition: background 0.15s; }
+  .nav button { flex: 1; padding: 10px; border-radius: var(--radius); border: 0.5px solid var(--border2); background: var(--bg); color: var(--text2); font-size: 14px; cursor: pointer; }
   .nav button.active { background: var(--bg2); color: var(--text); font-weight: 500; }
   .card { background: var(--bg); border: 0.5px solid var(--border); border-radius: var(--radius-lg); padding: 1.25rem; margin-bottom: 1rem; }
   .section-title { font-size: 11px; font-weight: 500; color: var(--text3); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 0.75rem; }
   input[type=text], input[type=password], input[type=number], select { width: 100%; padding: 8px 10px; border: 0.5px solid var(--border2); border-radius: var(--radius); background: var(--bg); color: var(--text); font-size: 14px; outline: none; }
-  input:focus, select:focus { border-color: #378ADD; box-shadow: 0 0 0 2px rgba(55,138,221,0.15); }
-  button.btn { padding: 8px 16px; border-radius: var(--radius); border: 0.5px solid var(--border2); background: var(--bg2); color: var(--text); font-size: 13px; cursor: pointer; white-space: nowrap; transition: background 0.15s; }
+  input:focus, select:focus { border-color: #378ADD; }
+  button.btn { padding: 8px 16px; border-radius: var(--radius); border: 0.5px solid var(--border2); background: var(--bg2); color: var(--text); font-size: 13px; cursor: pointer; white-space: nowrap; }
   button.btn:hover { background: var(--bg3); }
   button.btn-sm { padding: 4px 10px; font-size: 12px; border-radius: var(--radius); border: 0.5px solid var(--border); background: none; color: var(--text2); cursor: pointer; }
   button.btn-sm:hover { background: var(--bg2); }
@@ -86,6 +76,7 @@
   th { text-align: left; padding: 8px 10px; border-bottom: 0.5px solid var(--border2); color: var(--text2); font-weight: 500; }
   td { padding: 8px 10px; border-bottom: 0.5px solid var(--border); color: var(--text); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
   tr:last-child td { border-bottom: none; }
+  td.wrap { white-space: normal; }
   .empty { color: var(--text3); font-size: 13px; font-style: italic; }
   .hidden { display: none !important; }
   .task-card { background: var(--bg); border: 0.5px solid var(--border); border-radius: var(--radius-lg); padding: 1.25rem; margin-bottom: 0.75rem; }
@@ -95,7 +86,23 @@
   .pw-box { width: 100%; max-width: 360px; }
   .err-msg { font-size: 12px; color: var(--red-text); margin-top: 6px; }
   .ok-msg { font-size: 12px; color: var(--green-text); margin-top: 6px; }
-  h1 { font-size: 20px; font-weight: 500; margin-bottom: 1.5rem; color: var(--text); }
+
+  /* Canvas / Zeichenfeld */
+  .canvas-wrap { position: relative; margin: 0.75rem 0 0.5rem; border-radius: var(--radius); overflow: hidden; border: 0.5px solid var(--border2); touch-action: none; background: #fff; }
+  .canvas-wrap canvas { display: block; width: 100%; height: 160px; cursor: crosshair; }
+  .canvas-toolbar { display: flex; gap: 6px; align-items: center; margin-bottom: 0.5rem; flex-wrap: wrap; }
+  .color-btn { width: 22px; height: 22px; border-radius: 50%; border: 2px solid transparent; cursor: pointer; flex-shrink: 0; }
+  .color-btn.active { border-color: var(--text); }
+  .size-btn { padding: 3px 8px; font-size: 11px; border-radius: var(--radius); border: 0.5px solid var(--border2); background: var(--bg2); color: var(--text2); cursor: pointer; }
+  .size-btn.active { background: var(--text); color: var(--bg); }
+  .canvas-label { font-size: 12px; color: var(--text3); margin-bottom: 4px; }
+
+  /* Lehrer: Lösungsweg-Vorschau */
+  .solution-thumb { max-width: 180px; max-height: 90px; border-radius: var(--radius); border: 0.5px solid var(--border); cursor: pointer; display: block; }
+  .modal-backdrop { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 100; align-items: center; justify-content: center; }
+  .modal-backdrop.open { display: flex; }
+  .modal-img { max-width: 90vw; max-height: 85vh; border-radius: var(--radius-lg); border: 0.5px solid var(--border); background: #fff; }
+  .modal-close { position: fixed; top: 16px; right: 20px; color: #fff; font-size: 28px; cursor: pointer; z-index: 101; line-height: 1; }
 </style>
 </head>
 <body>
@@ -106,6 +113,7 @@
     <button id="btn-teacher" onclick="switchView('teacher')">Lehrer-Ansicht</button>
   </div>
 
+  <!-- SCHÜLER -->
   <div id="view-student">
     <div class="card">
       <div class="section-title">Name eingeben</div>
@@ -125,6 +133,7 @@
     <div id="no-tasks-msg" class="hidden" style="color:var(--text3);font-size:14px;padding:1rem 0;">Noch keine Aufgaben vorhanden. Bitte warten.</div>
   </div>
 
+  <!-- LEHRER -->
   <div id="view-teacher" class="hidden">
     <div id="pw-screen">
       <div class="pw-wrap">
@@ -177,194 +186,328 @@
     </div>
   </div>
 </div>
+
+<!-- Bild-Modal -->
+<div class="modal-backdrop" id="img-modal" onclick="closeModal()">
+  <span class="modal-close" onclick="closeModal()">×</span>
+  <img class="modal-img" id="modal-img" src="" alt="Lösungsweg" />
+</div>
+
 <script>
-let tasks = [], results = [], teacherAuthed = false, currentStudent = '';
-let unsubTasks = null, unsubResults = null;
-const DEFAULT_PW = 'lehrer123';
+let tasks=[], results=[], teacherAuthed=false, currentStudent='';
+let unsubTasks=null, unsubResults=null;
+const DEFAULT_PW='lehrer123';
 
-function waitForDb(fn) {
-  if (window._dbReady) fn();
-  else document.addEventListener('db-ready', fn, { once: true });
+// ── DB helpers ──
+function waitForDb(fn){ if(window._dbReady) fn(); else document.addEventListener('db-ready',fn,{once:true}); }
+function dbRef(p){ return window._ref(window._db,p); }
+async function dbSet(p,v){ await window._set(dbRef(p),v); }
+async function dbGet(p){ return (await window._get(dbRef(p))).val(); }
+function dbListen(p,cb){ return window._onValue(dbRef(p),s=>cb(s.val())); }
+async function dbRemove(p){ await window._remove(dbRef(p)); }
+
+// ── Views ──
+function switchView(v){
+  document.getElementById('view-student').classList.toggle('hidden',v!=='student');
+  document.getElementById('view-teacher').classList.toggle('hidden',v!=='teacher');
+  document.getElementById('btn-student').classList.toggle('active',v==='student');
+  document.getElementById('btn-teacher').classList.toggle('active',v==='teacher');
+  if(v==='teacher'&&teacherAuthed) startListeners();
+  if(v!=='teacher') stopListeners();
 }
-function dbRef(path) { return window._ref(window._db, path); }
-async function dbSet(path, val) { await window._set(dbRef(path), val); }
-async function dbGet(path) { return (await window._get(dbRef(path))).val(); }
-function dbListen(path, cb) { return window._onValue(dbRef(path), snap => cb(snap.val())); }
-async function dbRemove(path) { await window._remove(dbRef(path)); }
 
-function switchView(v) {
-  document.getElementById('view-student').classList.toggle('hidden', v !== 'student');
-  document.getElementById('view-teacher').classList.toggle('hidden', v !== 'teacher');
-  document.getElementById('btn-student').classList.toggle('active', v === 'student');
-  document.getElementById('btn-teacher').classList.toggle('active', v === 'teacher');
-  if (v === 'teacher' && teacherAuthed) startListeners();
-  if (v !== 'teacher') stopListeners();
-}
-
-async function checkPw() {
-  const entered = document.getElementById('pw-input').value;
-  const stored = await dbGet('config/password') || DEFAULT_PW;
-  if (entered === stored) {
-    teacherAuthed = true;
+// ── Auth ──
+async function checkPw(){
+  const entered=document.getElementById('pw-input').value;
+  const stored=await dbGet('config/password')||DEFAULT_PW;
+  if(entered===stored){
+    teacherAuthed=true;
     document.getElementById('pw-screen').classList.add('hidden');
     document.getElementById('teacher-content').classList.remove('hidden');
     document.getElementById('pw-error').classList.add('hidden');
     startListeners();
   } else {
     document.getElementById('pw-error').classList.remove('hidden');
-    document.getElementById('pw-input').value = '';
+    document.getElementById('pw-input').value='';
   }
 }
-
-async function changePassword() {
-  const p1 = document.getElementById('new-pw1').value.trim();
-  const p2 = document.getElementById('new-pw2').value.trim();
-  const msg = document.getElementById('pw-change-msg');
-  if (!p1) { msg.className = 'err-msg'; msg.textContent = 'Passwort darf nicht leer sein.'; return; }
-  if (p1 !== p2) { msg.className = 'err-msg'; msg.textContent = 'Passwörter stimmen nicht überein.'; return; }
-  await dbSet('config/password', p1);
-  msg.className = 'ok-msg'; msg.textContent = 'Passwort erfolgreich geändert.';
-  document.getElementById('new-pw1').value = '';
-  document.getElementById('new-pw2').value = '';
-  setTimeout(() => msg.textContent = '', 3000);
+async function changePassword(){
+  const p1=document.getElementById('new-pw1').value.trim();
+  const p2=document.getElementById('new-pw2').value.trim();
+  const msg=document.getElementById('pw-change-msg');
+  if(!p1){msg.className='err-msg';msg.textContent='Passwort darf nicht leer sein.';return;}
+  if(p1!==p2){msg.className='err-msg';msg.textContent='Passwörter stimmen nicht überein.';return;}
+  await dbSet('config/password',p1);
+  msg.className='ok-msg';msg.textContent='Passwort erfolgreich geändert.';
+  document.getElementById('new-pw1').value='';document.getElementById('new-pw2').value='';
+  setTimeout(()=>msg.textContent='',3000);
 }
-
-function teacherLogout() {
-  teacherAuthed = false;
-  stopListeners();
+function teacherLogout(){
+  teacherAuthed=false; stopListeners();
   document.getElementById('pw-screen').classList.remove('hidden');
   document.getElementById('teacher-content').classList.add('hidden');
-  document.getElementById('pw-input').value = '';
+  document.getElementById('pw-input').value='';
 }
 
-function startListeners() {
-  stopListeners();
-  setSyncStatus('loading', 'Verbinde…');
-  unsubTasks = dbListen('tasks', data => {
-    tasks = data ? Object.values(data) : [];
-    renderTeacher();
-    if (currentStudent) renderTaskList();
-    setSyncStatus('ok', 'Live — ' + new Date().toLocaleTimeString('de-DE'));
+// ── Listeners ──
+function startListeners(){
+  stopListeners(); setSyncStatus('loading','Verbinde…');
+  unsubTasks=dbListen('tasks',data=>{
+    tasks=data?Object.values(data):[];
+    renderTeacher(); if(currentStudent) renderTaskList();
+    setSyncStatus('ok','Live — '+new Date().toLocaleTimeString('de-DE'));
   });
-  unsubResults = dbListen('results', data => {
-    results = data ? Object.values(data) : [];
+  unsubResults=dbListen('results',data=>{
+    results=data?Object.values(data):[];
     renderTeacher();
-    setSyncStatus('ok', 'Live — ' + new Date().toLocaleTimeString('de-DE'));
+    setSyncStatus('ok','Live — '+new Date().toLocaleTimeString('de-DE'));
   });
 }
-
-function stopListeners() {
-  if (unsubTasks) { unsubTasks(); unsubTasks = null; }
-  if (unsubResults) { unsubResults(); unsubResults = null; }
+function stopListeners(){
+  if(unsubTasks){unsubTasks();unsubTasks=null;}
+  if(unsubResults){unsubResults();unsubResults=null;}
+}
+function setSyncStatus(state,text){
+  const dot=document.getElementById('sync-dot');
+  dot.className='dot'+(state==='loading'?' loading':state==='err'?' err':'');
+  document.getElementById('sync-label').textContent=text;
 }
 
-function setSyncStatus(state, text) {
-  const dot = document.getElementById('sync-dot');
-  dot.className = 'dot' + (state === 'loading' ? ' loading' : state === 'err' ? ' err' : '');
-  document.getElementById('sync-label').textContent = text;
-}
-
-function setName() {
-  const n = document.getElementById('student-name').value.trim();
-  if (!n) return;
-  currentStudent = n;
+// ── Student name ──
+function setName(){
+  const n=document.getElementById('student-name').value.trim();
+  if(!n) return;
+  currentStudent=n;
   document.getElementById('name-display').classList.remove('hidden');
-  document.getElementById('logged-name').textContent = n;
-  document.getElementById('name-form').style.display = 'none';
-  waitForDb(() => {
-    dbListen('tasks', data => { tasks = data ? Object.values(data) : []; renderTaskList(); });
-    dbListen('results', data => { results = data ? Object.values(data) : []; renderTaskList(); });
+  document.getElementById('logged-name').textContent=n;
+  document.getElementById('name-form').style.display='none';
+  waitForDb(()=>{
+    dbListen('tasks',data=>{tasks=data?Object.values(data):[];renderTaskList();});
+    dbListen('results',data=>{results=data?Object.values(data):[];renderTaskList();});
   });
 }
-
-function clearName() {
-  currentStudent = '';
-  stopListeners();
+function clearName(){
+  currentStudent=''; stopListeners();
   document.getElementById('name-display').classList.add('hidden');
-  document.getElementById('name-form').style.display = '';
-  document.getElementById('student-name').value = '';
+  document.getElementById('name-form').style.display='';
+  document.getElementById('student-name').value='';
   document.getElementById('tasks-area').classList.add('hidden');
 }
 
-function renderTaskList() {
-  const area = document.getElementById('tasks-area');
-  const noMsg = document.getElementById('no-tasks-msg');
-  if (!tasks.length) { area.classList.add('hidden'); noMsg.classList.remove('hidden'); return; }
+// ── Canvas drawing ──
+const canvases={};
+
+function initCanvas(taskId){
+  if(canvases[taskId]) return;
+  const canvas=document.getElementById('canvas-'+taskId);
+  if(!canvas) return;
+  const dpr=window.devicePixelRatio||1;
+  const rect=canvas.getBoundingClientRect();
+  canvas.width=rect.width*dpr;
+  canvas.height=160*dpr;
+  const ctx=canvas.getContext('2d');
+  ctx.scale(dpr,dpr);
+  ctx.lineCap='round';
+  ctx.lineJoin='round';
+  ctx.strokeStyle='#1a1a18';
+  ctx.lineWidth=3;
+
+  const state={drawing:false, color:'#1a1a18', size:3, ctx, canvas, dpr};
+  canvases[taskId]=state;
+
+  function getPos(e){
+    const r=canvas.getBoundingClientRect();
+    const t=e.touches?e.touches[0]:e;
+    return {x:(t.clientX-r.left), y:(t.clientY-r.top)};
+  }
+  function start(e){
+    e.preventDefault();
+    state.drawing=true;
+    const p=getPos(e);
+    ctx.beginPath(); ctx.moveTo(p.x,p.y);
+  }
+  function move(e){
+    e.preventDefault();
+    if(!state.drawing) return;
+    const p=getPos(e);
+    ctx.lineTo(p.x,p.y); ctx.stroke();
+  }
+  function end(e){ e.preventDefault(); state.drawing=false; }
+
+  canvas.addEventListener('mousedown',start);
+  canvas.addEventListener('mousemove',move);
+  canvas.addEventListener('mouseup',end);
+  canvas.addEventListener('mouseleave',end);
+  canvas.addEventListener('touchstart',start,{passive:false});
+  canvas.addEventListener('touchmove',move,{passive:false});
+  canvas.addEventListener('touchend',end,{passive:false});
+}
+
+function setColor(taskId,color,btn){
+  const state=canvases[taskId];
+  if(!state) return;
+  state.color=color;
+  state.ctx.strokeStyle=color;
+  document.querySelectorAll('#toolbar-'+taskId+' .color-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+}
+function setSize(taskId,size,btn){
+  const state=canvases[taskId];
+  if(!state) return;
+  state.size=size;
+  state.ctx.lineWidth=size;
+  document.querySelectorAll('#toolbar-'+taskId+' .size-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+}
+function clearCanvas(taskId){
+  const state=canvases[taskId];
+  if(!state) return;
+  const {ctx,canvas,dpr}=state;
+  ctx.clearRect(0,0,canvas.width/dpr,canvas.height/dpr);
+}
+function getCanvasData(taskId){
+  const canvas=document.getElementById('canvas-'+taskId);
+  if(!canvas) return null;
+  const tmp=document.createElement('canvas');
+  tmp.width=canvas.width; tmp.height=canvas.height;
+  const tctx=tmp.getContext('2d');
+  tctx.fillStyle='#ffffff'; tctx.fillRect(0,0,tmp.width,tmp.height);
+  tctx.drawImage(canvas,0,0);
+  return tmp.toDataURL('image/jpeg',0.6);
+}
+
+// ── Render task list ──
+function renderTaskList(){
+  const area=document.getElementById('tasks-area');
+  const noMsg=document.getElementById('no-tasks-msg');
+  if(!tasks.length){area.classList.add('hidden');noMsg.classList.remove('hidden');return;}
   noMsg.classList.add('hidden'); area.classList.remove('hidden');
-  document.getElementById('task-list').innerHTML = tasks.map((task, i) => {
-    const prev = results.find(r => r.student === currentStudent && r.taskId === task.id);
-    const feedbackHtml = prev ? `<span class="feedback ${prev.answer == task.answer ? 'ok' : 'bad'}">${prev.answer == task.answer ? '✓ Richtig' : '✗ Deine Antwort: ' + prev.answer}</span>` : '';
-    return `<div class="task-card"><div class="task-num">Aufgabe ${i+1}</div><div class="task-text">${task.text}</div><div class="row"><input type="number" id="ans-${task.id}" placeholder="Antwort…" style="width:130px;" ${prev ? 'value="'+prev.answer+'"' : ''} /><button class="btn" onclick="submitAnswer('${task.id}')">Abgeben</button><span id="fb-${task.id}">${feedbackHtml}</span></div></div>`;
+  document.getElementById('task-list').innerHTML=tasks.map((task,i)=>{
+    const prev=results.find(r=>r.student===currentStudent&&r.taskId===task.id);
+    const feedbackHtml=prev?`<span class="feedback ${prev.answer==task.answer?'ok':'bad'}">${prev.answer==task.answer?'✓ Richtig':'✗ Deine Antwort: '+prev.answer}</span>`:'';
+    const prevImg=prev&&prev.drawing?`<div style="margin-top:8px;"><div class="canvas-label">Dein gespeicherter Lösungsweg:</div><img src="${prev.drawing}" style="max-width:100%;border-radius:var(--radius);border:0.5px solid var(--border);" /></div>`:'';
+    return `<div class="task-card">
+      <div class="task-num">Aufgabe ${i+1}</div>
+      <div class="task-text">${task.text}</div>
+      <div class="row" style="margin-bottom:0.75rem;">
+        <input type="number" id="ans-${task.id}" placeholder="Antwort…" style="width:130px;" ${prev?'value="'+prev.answer+'"':''} />
+        <button class="btn" onclick="submitAnswer('${task.id}')">Abgeben</button>
+        <span id="fb-${task.id}">${feedbackHtml}</span>
+      </div>
+      <div class="canvas-label">Lösungsweg (optional):</div>
+      <div id="toolbar-${task.id}" class="canvas-toolbar">
+        <button class="color-btn active" style="background:#1a1a18;" onclick="setColor('${task.id}','#1a1a18',this)" title="Schwarz"></button>
+        <button class="color-btn" style="background:#2563eb;" onclick="setColor('${task.id}','#2563eb',this)" title="Blau"></button>
+        <button class="color-btn" style="background:#dc2626;" onclick="setColor('${task.id}','#dc2626',this)" title="Rot"></button>
+        <button class="color-btn" style="background:#16a34a;" onclick="setColor('${task.id}','#16a34a',this)" title="Grün"></button>
+        <button class="size-btn active" onclick="setSize('${task.id}',3,this)">S</button>
+        <button class="size-btn" onclick="setSize('${task.id}',6,this)">M</button>
+        <button class="size-btn" onclick="setSize('${task.id}',12,this)">L</button>
+        <button class="btn-sm" style="margin-left:auto;" onclick="clearCanvas('${task.id}')">Löschen</button>
+      </div>
+      <div class="canvas-wrap"><canvas id="canvas-${task.id}"></canvas></div>
+      ${prevImg}
+    </div>`;
   }).join('');
+  tasks.forEach(task=>{
+    requestAnimationFrame(()=>initCanvas(task.id));
+  });
 }
 
-async function submitAnswer(taskId) {
-  if (!currentStudent) return;
-  const val = document.getElementById('ans-' + taskId).value.trim();
-  if (val === '') return;
-  const key = currentStudent.replace(/[^a-zA-Z0-9]/g, '_') + '__' + taskId;
-  const entry = { student: currentStudent, taskId, answer: Number(val), time: new Date().toLocaleString('de-DE') };
-  await dbSet('results/' + key, entry);
-  const task = tasks.find(t => t.id === taskId);
-  const correct = Number(val) == task.answer;
-  document.getElementById('fb-' + taskId).innerHTML = `<span class="feedback ${correct ? 'ok' : 'bad'}">${correct ? '✓ Richtig!' : '✗ Falsch'}</span>`;
+// ── Submit answer ──
+async function submitAnswer(taskId){
+  if(!currentStudent) return;
+  const val=document.getElementById('ans-'+taskId).value.trim();
+  if(val==='') return;
+  const drawing=getCanvasData(taskId);
+  const key=currentStudent.replace(/[^a-zA-Z0-9]/g,'_')+'__'+taskId;
+  const entry={student:currentStudent,taskId,answer:Number(val),time:new Date().toLocaleString('de-DE'),drawing:drawing||null};
+  await dbSet('results/'+key,entry);
+  const task=tasks.find(t=>t.id===taskId);
+  const correct=Number(val)==task.answer;
+  document.getElementById('fb-'+taskId).innerHTML=`<span class="feedback ${correct?'ok':'bad'}">${correct?'✓ Richtig!':'✗ Falsch'}</span>`;
 }
 
-async function addTask() {
-  const text = document.getElementById('new-task-text').value.trim();
-  const ans = document.getElementById('new-task-answer').value.trim();
-  if (!text || ans === '') return;
-  const id = 't' + Date.now();
-  await dbSet('tasks/' + id, { id, text, answer: Number(ans) });
-  document.getElementById('new-task-text').value = '';
-  document.getElementById('new-task-answer').value = '';
+// ── Teacher ──
+async function addTask(){
+  const text=document.getElementById('new-task-text').value.trim();
+  const ans=document.getElementById('new-task-answer').value.trim();
+  if(!text||ans==='') return;
+  const id='t'+Date.now();
+  await dbSet('tasks/'+id,{id,text,answer:Number(ans)});
+  document.getElementById('new-task-text').value='';
+  document.getElementById('new-task-answer').value='';
 }
-
-async function deleteTask(id) {
-  if (!confirm('Aufgabe und alle zugehörigen Ergebnisse löschen?')) return;
-  await dbRemove('tasks/' + id);
-  for (const r of results.filter(r => r.taskId === id)) {
-    await dbRemove('results/' + r.student.replace(/[^a-zA-Z0-9]/g, '_') + '__' + id);
+async function deleteTask(id){
+  if(!confirm('Aufgabe und alle zugehörigen Ergebnisse löschen?')) return;
+  await dbRemove('tasks/'+id);
+  for(const r of results.filter(r=>r.taskId===id)){
+    await dbRemove('results/'+r.student.replace(/[^a-zA-Z0-9]/g,'_')+'__'+id);
   }
 }
-
-async function clearResults() {
-  if (!confirm('Alle Ergebnisse wirklich löschen?')) return;
+async function clearResults(){
+  if(!confirm('Alle Ergebnisse wirklich löschen?')) return;
   await dbRemove('results');
 }
-
-function renderTeacher() { renderStats(); renderTaskManage(); updateFilters(); renderResults(); }
-
-function renderStats() {
-  const students = [...new Set(results.map(r => r.student))];
-  const correct = results.filter(r => { const t = tasks.find(t => t.id === r.taskId); return t && r.answer == t.answer; });
-  const pct = results.length ? Math.round(correct.length / results.length * 100) : 0;
-  document.getElementById('stats').innerHTML = `<div class="stat"><div class="stat-label">Schüler</div><div class="stat-val">${students.length}</div></div><div class="stat"><div class="stat-label">Aufgaben</div><div class="stat-val">${tasks.length}</div></div><div class="stat"><div class="stat-label">Abgaben</div><div class="stat-val">${results.length}</div></div><div class="stat"><div class="stat-label">Korrekt</div><div class="stat-val">${pct}%</div></div>`;
+function renderTeacher(){ renderStats(); renderTaskManage(); updateFilters(); renderResults(); }
+function renderStats(){
+  const students=[...new Set(results.map(r=>r.student))];
+  const correct=results.filter(r=>{const t=tasks.find(t=>t.id===r.taskId);return t&&r.answer==t.answer;});
+  const pct=results.length?Math.round(correct.length/results.length*100):0;
+  document.getElementById('stats').innerHTML=`
+    <div class="stat"><div class="stat-label">Schüler</div><div class="stat-val">${students.length}</div></div>
+    <div class="stat"><div class="stat-label">Aufgaben</div><div class="stat-val">${tasks.length}</div></div>
+    <div class="stat"><div class="stat-label">Abgaben</div><div class="stat-val">${results.length}</div></div>
+    <div class="stat"><div class="stat-label">Korrekt</div><div class="stat-val">${pct}%</div></div>`;
+}
+function renderTaskManage(){
+  const div=document.getElementById('task-manage');
+  if(!tasks.length){div.innerHTML='<p class="empty" style="margin-top:8px;">Noch keine Aufgaben.</p>';return;}
+  div.innerHTML=`<table style="margin-top:0.75rem;"><thead><tr><th style="width:8%">#</th><th style="width:52%">Aufgabe</th><th style="width:20%">Lösung</th><th style="width:20%"></th></tr></thead><tbody>${tasks.map((t,i)=>`<tr><td>${i+1}</td><td>${t.text}</td><td style="font-family:monospace;">${t.answer}</td><td><button class="btn-sm" onclick="deleteTask('${t.id}')">Löschen</button></td></tr>`).join('')}</tbody></table>`;
+}
+function updateFilters(){
+  const students=[...new Set(results.map(r=>r.student))];
+  const sel=document.getElementById('filter-student');const cur=sel.value;
+  sel.innerHTML='<option value="">Alle Schüler</option>'+students.map(s=>`<option value="${s}" ${s===cur?'selected':''}>${s}</option>`).join('');
+  const tsel=document.getElementById('filter-task');const tcur=tsel.value;
+  tsel.innerHTML='<option value="">Alle Aufgaben</option>'+tasks.map(t=>`<option value="${t.id}" ${t.id===tcur?'selected':''}>${t.text}</option>`).join('');
+}
+function renderResults(){
+  const fs=document.getElementById('filter-student').value;
+  const ft=document.getElementById('filter-task').value;
+  let filtered=results;
+  if(fs) filtered=filtered.filter(r=>r.student===fs);
+  if(ft) filtered=filtered.filter(r=>r.taskId===ft);
+  const div=document.getElementById('results-table');
+  if(!filtered.length){div.innerHTML='<p class="empty">Noch keine Abgaben.</p>';return;}
+  div.innerHTML=`<table><thead><tr>
+    <th style="width:18%">Schüler</th><th style="width:26%">Aufgabe</th>
+    <th style="width:12%">Antwort</th><th style="width:11%">Status</th>
+    <th style="width:16%">Lösungsweg</th><th style="width:17%">Zeit</th>
+  </tr></thead><tbody>`
+  +filtered.slice().sort((a,b)=>a.student.localeCompare(b.student)).map(r=>{
+    const task=tasks.find(t=>t.id===r.taskId);
+    const correct=task&&r.answer==task.answer;
+    const imgHtml=r.drawing?`<img class="solution-thumb" src="${r.drawing}" onclick="openModal('${r.drawing.replace(/'/g,"\\'")})" alt="Lösungsweg" />`:`<span style="font-size:11px;color:var(--text3);">—</span>`;
+    return `<tr>
+      <td>${r.student}</td>
+      <td>${task?task.text:r.taskId}</td>
+      <td style="font-family:monospace;">${r.answer}</td>
+      <td><span class="pill ${correct?'ok':'bad'}">${correct?'Richtig':'Falsch'}</span></td>
+      <td class="wrap">${imgHtml}</td>
+      <td style="font-size:11px;color:var(--text3);">${r.time}</td>
+    </tr>`;
+  }).join('')+'</tbody></table>';
 }
 
-function renderTaskManage() {
-  const div = document.getElementById('task-manage');
-  if (!tasks.length) { div.innerHTML = '<p class="empty" style="margin-top:8px;">Noch keine Aufgaben.</p>'; return; }
-  div.innerHTML = `<table style="margin-top:0.75rem;"><thead><tr><th style="width:8%">#</th><th style="width:52%">Aufgabe</th><th style="width:20%">Lösung</th><th style="width:20%"></th></tr></thead><tbody>${tasks.map((t,i)=>`<tr><td>${i+1}</td><td>${t.text}</td><td style="font-family:monospace;">${t.answer}</td><td><button class="btn-sm" onclick="deleteTask('${t.id}')">Löschen</button></td></tr>`).join('')}</tbody></table>`;
+// ── Modal ──
+function openModal(src){
+  document.getElementById('modal-img').src=src;
+  document.getElementById('img-modal').classList.add('open');
 }
-
-function updateFilters() {
-  const students = [...new Set(results.map(r => r.student))];
-  const sel = document.getElementById('filter-student'); const cur = sel.value;
-  sel.innerHTML = '<option value="">Alle Schüler</option>' + students.map(s=>`<option value="${s}" ${s===cur?'selected':''}>${s}</option>`).join('');
-  const tsel = document.getElementById('filter-task'); const tcur = tsel.value;
-  tsel.innerHTML = '<option value="">Alle Aufgaben</option>' + tasks.map(t=>`<option value="${t.id}" ${t.id===tcur?'selected':''}>${t.text}</option>`).join('');
-}
-
-function renderResults() {
-  const fs = document.getElementById('filter-student').value;
-  const ft = document.getElementById('filter-task').value;
-  let filtered = results;
-  if (fs) filtered = filtered.filter(r => r.student === fs);
-  if (ft) filtered = filtered.filter(r => r.taskId === ft);
-  const div = document.getElementById('results-table');
-  if (!filtered.length) { div.innerHTML = '<p class="empty">Noch keine Abgaben.</p>'; return; }
-  div.innerHTML = `<table><thead><tr><th style="width:20%">Schüler</th><th style="width:30%">Aufgabe</th><th style="width:15%">Antwort</th><th style="width:13%">Status</th><th style="width:22%">Zeit</th></tr></thead><tbody>${filtered.slice().sort((a,b)=>a.student.localeCompare(b.student)).map(r=>{const task=tasks.find(t=>t.id===r.taskId);const correct=task&&r.answer==task.answer;return `<tr><td>${r.student}</td><td>${task?task.text:r.taskId}</td><td style="font-family:monospace;">${r.answer}</td><td><span class="pill ${correct?'ok':'bad'}">${correct?'Richtig':'Falsch'}</span></td><td style="font-size:11px;color:var(--text3);">${r.time}</td></tr>`;}).join('')}</tbody></table>`;
+function closeModal(){
+  document.getElementById('img-modal').classList.remove('open');
+  document.getElementById('modal-img').src='';
 }
 </script>
 </body>
