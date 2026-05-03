@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mathe-Klassen-App</title>
+
+// Import the functions you need from the SDKs you need
+import { initializeApp } from "firebase/app";
+import { getAnalytics } from "firebase/analytics";
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
+
+// Your web app's Firebase configuration
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const firebaseConfig = {
+  apiKey: "AIzaSyDj6zotxKjmfpY2XK_2zMS_z0xzmhmVmF4",
+  authDomain: "arbeitsblatt1-9dc45.firebaseapp.com",
+  projectId: "arbeitsblatt1-9dc45",
+  storageBucket: "arbeitsblatt1-9dc45.firebasestorage.app",
+  messagingSenderId: "46180644088",
+  appId: "1:46180644088:web:5bcdbe793e5355ab00370d",
+  measurementId: "G-4SE18F8Y3R"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app);
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+  import { getDatabase, ref, set, get, onValue, remove } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+
+  const firebaseConfig = {
+    apiKey: "DEIN_API_KEY",
+    authDomain: "DEIN_PROJEKT.firebaseapp.com",
+    databaseURL: "https://DEIN_PROJEKT-default-rtdb.europe-west1.firebasedatabase.app",
+    projectId: "DEIN_PROJEKT",
+    storageBucket: "DEIN_PROJEKT.appspot.com",
+    messagingSenderId: "DEINE_SENDER_ID",
+    appId: "DEINE_APP_ID"
+  };
+  // ============================================================
+
+  const app = initializeApp(firebaseConfig);
+  const db = getDatabase(app);
+
+  window._db = db;
+  window._ref = ref;
+  window._set = set;
+  window._get = get;
+  window._onValue = onValue;
+  window._remove = remove;
+  window._dbReady = true;
+  document.dispatchEvent(new Event('db-ready'));
+</script>
+
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg: #ffffff; --bg2: #f5f5f3; --bg3: #eeede9;
+    --text: #1a1a18; --text2: #666660; --text3: #999990;
+    --border: rgba(0,0,0,0.12); --border2: rgba(0,0,0,0.22);
+    --green-bg: #EAF3DE; --green-text: #3B6D11;
+    --red-bg: #FCEBEB; --red-text: #A32D2D;
+    --blue-bg: #E6F1FB; --blue-text: #185FA5;
+    --radius: 8px; --radius-lg: 12px;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #1e1e1c; --bg2: #2a2a28; --bg3: #333330;
+      --text: #f0efe9; --text2: #aaa99e; --text3: #77766e;
+      --border: rgba(255,255,255,0.12); --border2: rgba(255,255,255,0.22);
+      --green-bg: #173404; --green-text: #C0DD97;
+      --red-bg: #501313; --red-text: #F7C1C1;
+      --blue-bg: #042C53; --blue-text: #B5D4F4;
+    }
+  }
+  body { font-family: system-ui, -apple-system, sans-serif; background: var(--bg3); color: var(--text); min-height: 100vh; }
+  .container { max-width: 720px; margin: 0 auto; padding: 1.5rem 1rem; }
+  .nav { display: flex; gap: 8px; margin-bottom: 1.5rem; }
+  .nav button { flex: 1; padding: 10px; border-radius: var(--radius); border: 0.5px solid var(--border2); background: var(--bg); color: var(--text2); font-size: 14px; cursor: pointer; transition: background 0.15s; }
+  .nav button.active { background: var(--bg2); color: var(--text); font-weight: 500; border-color: var(--border2); }
+  .card { background: var(--bg); border: 0.5px solid var(--border); border-radius: var(--radius-lg); padding: 1.25rem; margin-bottom: 1rem; }
+  .section-title { font-size: 11px; font-weight: 500; color: var(--text3); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 0.75rem; }
+  input[type=text], input[type=password], input[type=number], select {
+    width: 100%; padding: 8px 10px; border: 0.5px solid var(--border2); border-radius: var(--radius);
+    background: var(--bg); color: var(--text); font-size: 14px; outline: none;
+  }
+  input:focus, select:focus { border-color: #378ADD; box-shadow: 0 0 0 2px rgba(55,138,221,0.15); }
+  button.btn { padding: 8px 16px; border-radius: var(--radius); border: 0.5px solid var(--border2); background: var(--bg2); color: var(--text); font-size: 13px; cursor: pointer; white-space: nowrap; transition: background 0.15s; }
+  button.btn:hover { background: var(--bg3); }
+  button.btn-sm { padding: 4px 10px; font-size: 12px; border-radius: var(--radius); border: 0.5px solid var(--border); background: none; color: var(--text2); cursor: pointer; }
+  button.btn-sm:hover { background: var(--bg2); }
+  .row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+  .pill { display: inline-block; font-size: 11px; padding: 2px 8px; border-radius: 20px; font-weight: 500; }
+  .pill.ok { background: var(--green-bg); color: var(--green-text); }
+  .pill.bad { background: var(--red-bg); color: var(--red-text); }
+  .feedback { font-size: 13px; padding: 3px 10px; border-radius: var(--radius); }
+  .feedback.ok { background: var(--green-bg); color: var(--green-text); }
+  .feedback.bad { background: var(--red-bg); color: var(--red-text); }
+  .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(110px,1fr)); gap: 10px; margin-bottom: 1.25rem; }
+  .stat { background: var(--bg2); border-radius: var(--radius); padding: 0.75rem 1rem; }
+  .stat-label { font-size: 11px; color: var(--text3); margin-bottom: 4px; }
+  .stat-val { font-size: 22px; font-weight: 500; }
+  .sync-bar { display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--text3); background: var(--bg2); border-radius: var(--radius); padding: 6px 10px; margin-bottom: 1rem; }
+  .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--green-text); flex-shrink: 0; }
+  .dot.err { background: var(--red-text); }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.3} }
+  .dot.loading { animation: pulse 1s infinite; background: #BA7517; }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; table-layout: fixed; }
+  th { text-align: left; padding: 8px 10px; border-bottom: 0.5px solid var(--border2); color: var(--text2); font-weight: 500; }
+  td { padding: 8px 10px; border-bottom: 0.5px solid var(--border); color: var(--text); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  tr:last-child td { border-bottom: none; }
+  .empty { color: var(--text3); font-size: 13px; font-style: italic; }
+  .hidden { display: none !important; }
+  .task-card { background: var(--bg); border: 0.5px solid var(--border); border-radius: var(--radius-lg); padding: 1.25rem; margin-bottom: 0.75rem; }
+  .task-num { font-size: 12px; color: var(--text3); margin-bottom: 4px; }
+  .task-text { font-size: 16px; font-weight: 500; margin-bottom: 1rem; }
+  .pw-wrap { min-height: 260px; display: flex; align-items: center; justify-content: center; }
+  .pw-box { width: 100%; max-width: 360px; }
+  .err-msg { font-size: 12px; color: var(--red-text); margin-top: 6px; }
+  .ok-msg { font-size: 12px; color: var(--green-text); margin-top: 6px; }
+  h1 { font-size: 20px; font-weight: 500; margin-bottom: 1.5rem; color: var(--text); }
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>Mathe-Klassen-App</h1>
+
+  <div class="nav">
+    <button class="active" id="btn-student" onclick="switchView('student')">Schüler-Ansicht</button>
+    <button id="btn-teacher" onclick="switchView('teacher')">Lehrer-Ansicht</button>
+  </div>
+
+  <!-- SCHÜLER -->
+  <div id="view-student">
+    <div class="card">
+      <div class="section-title">Name eingeben</div>
+      <div id="name-form" class="row">
+        <input type="text" id="student-name" placeholder="Dein Name…" style="flex:1;" onkeydown="if(event.key==='Enter')setName()" />
+        <button class="btn" onclick="setName()">Bestätigen</button>
+      </div>
+      <div id="name-display" class="hidden" style="font-size:14px;color:var(--text2);">
+        Eingeloggt als: <strong id="logged-name" style="color:var(--text)"></strong>
+        <button class="btn-sm" style="margin-left:8px;" onclick="clearName()">Wechseln</button>
+      </div>
+    </div>
+    <div id="tasks-area" class="hidden">
+      <div class="section-title">Aufgaben</div>
+      <div id="task-list"></div>
+    </div>
+    <div id="no-tasks-msg" class="hidden" style="color:var(--text3);font-size:14px;padding:1rem 0;">Noch keine Aufgaben vorhanden. Bitte warten.</div>
+  </div>
+
+  <!-- LEHRER -->
+  <div id="view-teacher" class="hidden">
+    <div id="pw-screen">
+      <div class="pw-wrap">
+        <div class="pw-box card">
+          <div class="section-title">Lehrer-Login</div>
+          <p style="font-size:13px;color:var(--text2);margin-bottom:1rem;">Passwort eingeben, um fortzufahren.</p>
+          <div class="row">
+            <input type="password" id="pw-input" placeholder="Passwort…" style="flex:1;" onkeydown="if(event.key==='Enter')checkPw()" />
+            <button class="btn" onclick="checkPw()">Anmelden</button>
+          </div>
+          <div id="pw-error" class="err-msg hidden">Falsches Passwort.</div>
+          <p style="font-size:11px;color:var(--text3);margin-top:12px;">Standard-Passwort: <code>lehrer123</code></p>
+        </div>
+      </div>
+    </div>
+
+    <div id="teacher-content" class="hidden">
+      <div class="sync-bar">
+        <div class="dot" id="sync-dot"></div>
+        <span id="sync-label">Verbinde mit Firebase…</span>
+        <button class="btn-sm" style="margin-left:auto;" onclick="teacherLogout()">Abmelden</button>
+      </div>
+
+      <div class="stats" id="stats"></div>
+
+      <div class="card">
+        <div class="section-title">Neue Aufgabe hinzufügen</div>
+        <div class="row" style="margin-bottom:8px;">
+          <input type="text" id="new-task-text" placeholder="Aufgabentext, z.B. 7 × 8 = ?" style="flex:2;min-width:140px;" />
+          <input type="number" id="new-task-answer" placeholder="Lösung" style="flex:1;min-width:80px;" />
+          <button class="btn" onclick="addTask()">Hinzufügen</button>
+        </div>
+        <div id="task-manage"></div>
+      </div>
+
+      <div class="card">
+        <div class="section-title">Passwort ändern</div>
+        <div class="row">
+          <input type="password" id="new-pw1" placeholder="Neues Passwort…" style="flex:1;min-width:120px;" />
+          <input type="password" id="new-pw2" placeholder="Wiederholen…" style="flex:1;min-width:120px;" />
+          <button class="btn" onclick="changePassword()">Ändern</button>
+        </div>
+        <div id="pw-change-msg"></div>
+      </div>
+
+      <div class="card">
+        <div class="section-title">Ergebnisse der Schüler</div>
+        <div class="row" style="margin-bottom:1rem;flex-wrap:wrap;">
+          <select id="filter-student" onchange="renderResults()" style="flex:1;min-width:120px;"><option value="">Alle Schüler</option></select>
+          <select id="filter-task" onchange="renderResults()" style="flex:1;min-width:120px;"><option value="">Alle Aufgaben</option></select>
+          <button class="btn-sm" onclick="clearResults()">Alle löschen</button>
+        </div>
+        <div id="results-table"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+let tasks = [], results = [], teacherAuthed = false, currentStudent = '';
+let unsubTasks = null, unsubResults = null;
+
+const DEFAULT_PW = 'lehrer123';
+
+function waitForDb(fn) {
+  if (window._dbReady) fn();
+  else document.addEventListener('db-ready', fn, { once: true });
+}
+
+function dbRef(path) { return window._ref(window._db, path); }
+async function dbSet(path, val) { await window._set(dbRef(path), val); }
+async function dbGet(path) { return (await window._get(dbRef(path))).val(); }
+function dbListen(path, cb) { return window._onValue(dbRef(path), snap => cb(snap.val())); }
+async function dbRemove(path) { await window._remove(dbRef(path)); }
+
+function switchView(v) {
+  document.getElementById('view-student').classList.toggle('hidden', v !== 'student');
+  document.getElementById('view-teacher').classList.toggle('hidden', v !== 'teacher');
+  document.getElementById('btn-student').classList.toggle('active', v === 'student');
+  document.getElementById('btn-teacher').classList.toggle('active', v === 'teacher');
+  if (v === 'teacher' && teacherAuthed) startListeners();
+  if (v !== 'teacher') stopListeners();
+}
+
+async function checkPw() {
+  const entered = document.getElementById('pw-input').value;
+  const stored = await dbGet('config/password') || DEFAULT_PW;
+  if (entered === stored) {
+    teacherAuthed = true;
+    document.getElementById('pw-screen').classList.add('hidden');
+    document.getElementById('teacher-content').classList.remove('hidden');
+    document.getElementById('pw-error').classList.add('hidden');
+    startListeners();
+  } else {
+    document.getElementById('pw-error').classList.remove('hidden');
+    document.getElementById('pw-input').value = '';
+  }
+}
+
+async function changePassword() {
+  const p1 = document.getElementById('new-pw1').value.trim();
+  const p2 = document.getElementById('new-pw2').value.trim();
+  const msg = document.getElementById('pw-change-msg');
+  if (!p1) { msg.className = 'err-msg'; msg.textContent = 'Passwort darf nicht leer sein.'; return; }
+  if (p1 !== p2) { msg.className = 'err-msg'; msg.textContent = 'Passwörter stimmen nicht überein.'; return; }
+  await dbSet('config/password', p1);
+  msg.className = 'ok-msg'; msg.textContent = 'Passwort erfolgreich geändert.';
+  document.getElementById('new-pw1').value = '';
+  document.getElementById('new-pw2').value = '';
+  setTimeout(() => msg.textContent = '', 3000);
+}
+
+function teacherLogout() {
+  teacherAuthed = false;
+  stopListeners();
+  document.getElementById('pw-screen').classList.remove('hidden');
+  document.getElementById('teacher-content').classList.add('hidden');
+  document.getElementById('pw-input').value = '';
+}
+
+function startListeners() {
+  stopListeners();
+  setSyncStatus('loading', 'Verbinde…');
+  unsubTasks = dbListen('tasks', data => {
+    tasks = data ? Object.values(data) : [];
+    renderTeacher();
+    if (currentStudent) renderTaskList();
+    setSyncStatus('ok', 'Live — ' + new Date().toLocaleTimeString('de-DE'));
+  });
+  unsubResults = dbListen('results', data => {
+    results = data ? Object.values(data) : [];
+    renderTeacher();
+    setSyncStatus('ok', 'Live — ' + new Date().toLocaleTimeString('de-DE'));
+  });
+}
+
+function stopListeners() {
+  if (unsubTasks) { unsubTasks(); unsubTasks = null; }
+  if (unsubResults) { unsubResults(); unsubResults = null; }
+}
+
+function setSyncStatus(state, text) {
+  const dot = document.getElementById('sync-dot');
+  dot.className = 'dot' + (state === 'loading' ? ' loading' : state === 'err' ? ' err' : '');
+  document.getElementById('sync-label').textContent = text;
+}
+
+function setName() {
+  const n = document.getElementById('student-name').value.trim();
+  if (!n) return;
+  currentStudent = n;
+  document.getElementById('name-display').classList.remove('hidden');
+  document.getElementById('logged-name').textContent = n;
+  document.getElementById('name-form').style.display = 'none';
+  waitForDb(() => {
+    dbListen('tasks', data => {
+      tasks = data ? Object.values(data) : [];
+      renderTaskList();
+    });
+    dbListen('results', data => {
+      results = data ? Object.values(data) : [];
+      renderTaskList();
+    });
+  });
+}
+
+function clearName() {
+  currentStudent = '';
+  stopListeners();
+  document.getElementById('name-display').classList.add('hidden');
+  document.getElementById('name-form').style.display = '';
+  document.getElementById('student-name').value = '';
+  document.getElementById('tasks-area').classList.add('hidden');
+}
+
+function renderTaskList() {
+  const area = document.getElementById('tasks-area');
+  const noMsg = document.getElementById('no-tasks-msg');
+  if (!tasks.length) { area.classList.add('hidden'); noMsg.classList.remove('hidden'); return; }
+  noMsg.classList.add('hidden'); area.classList.remove('hidden');
+  document.getElementById('task-list').innerHTML = tasks.map((task, i) => {
+    const prev = results.find(r => r.student === currentStudent && r.taskId === task.id);
+    const feedbackHtml = prev
+      ? `<span class="feedback ${prev.answer == task.answer ? 'ok' : 'bad'}">${prev.answer == task.answer ? '✓ Richtig' : `✗ Deine Antwort: ${prev.answer}`}</span>`
+      : '';
+    return `<div class="task-card">
+      <div class="task-num">Aufgabe ${i + 1}</div>
+      <div class="task-text">${task.text}</div>
+      <div class="row">
+        <input type="number" id="ans-${task.id}" placeholder="Antwort…" style="width:130px;" ${prev ? `value="${prev.answer}"` : ''} />
+        <button class="btn" onclick="submitAnswer('${task.id}')">Abgeben</button>
+        <span id="fb-${task.id}">${feedbackHtml}</span>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+async function submitAnswer(taskId) {
+  if (!currentStudent) return;
+  const val = document.getElementById('ans-' + taskId).value.trim();
+  if (val === '') return;
+  const key = currentStudent.replace(/[^a-zA-Z0-9]/g, '_') + '__' + taskId;
+  const entry = { student: currentStudent, taskId, answer: Number(val), time: new Date().toLocaleString('de-DE') };
+  await dbSet('results/' + key, entry);
+  const task = tasks.find(t => t.id === taskId);
+  const correct = Number(val) == task.answer;
+  document.getElementById('fb-' + taskId).innerHTML = `<span class="feedback ${correct ? 'ok' : 'bad'}">${correct ? '✓ Richtig!' : '✗ Falsch'}</span>`;
+}
+
+async function addTask() {
+  const text = document.getElementById('new-task-text').value.trim();
+  const ans = document.getElementById('new-task-answer').value.trim();
+  if (!text || ans === '') return;
+  const id = 't' + Date.now();
+  await dbSet('tasks/' + id, { id, text, answer: Number(ans) });
+  document.getElementById('new-task-text').value = '';
+  document.getElementById('new-task-answer').value = '';
+}
+
+async function deleteTask(id) {
+  if (!confirm('Aufgabe und alle zugehörigen Ergebnisse löschen?')) return;
+  await dbRemove('tasks/' + id);
+  const toDelete = results.filter(r => r.taskId === id);
+  for (const r of toDelete) {
+    const key = r.student.replace(/[^a-zA-Z0-9]/g, '_') + '__' + id;
+    await dbRemove('results/' + key);
+  }
+}
+
+async function clearResults() {
+  if (!confirm('Alle Ergebnisse wirklich löschen?')) return;
+  await dbRemove('results');
+}
+
+function renderTeacher() {
+  renderStats();
+  renderTaskManage();
+  updateFilters();
+  renderResults();
+}
+
+function renderStats() {
+  const students = [...new Set(results.map(r => r.student))];
+  const correct = results.filter(r => { const t = tasks.find(t => t.id === r.taskId); return t && r.answer == t.answer; });
+  const pct = results.length ? Math.round(correct.length / results.length * 100) : 0;
+  document.getElementById('stats').innerHTML = `
+    <div class="stat"><div class="stat-label">Schüler</div><div class="stat-val">${students.length}</div></div>
+    <div class="stat"><div class="stat-label">Aufgaben</div><div class="stat-val">${tasks.length}</div></div>
+    <div class="stat"><div class="stat-label">Abgaben</div><div class="stat-val">${results.length}</div></div>
+    <div class="stat"><div class="stat-label">Korrekt</div><div class="stat-val">${pct}%</div></div>`;
+}
+
+function renderTaskManage() {
+  const div = document.getElementById('task-manage');
+  if (!tasks.length) { div.innerHTML = '<p class="empty" style="margin-top:8px;">Noch keine Aufgaben.</p>'; return; }
+  div.innerHTML = `<table style="margin-top:0.75rem;"><thead><tr><th style="width:8%">#</th><th style="width:52%">Aufgabe</th><th style="width:20%">Lösung</th><th style="width:20%"></th></tr></thead><tbody>`
+    + tasks.map((t, i) => `<tr><td>${i + 1}</td><td>${t.text}</td><td style="font-family:monospace;">${t.answer}</td><td><button class="btn-sm" onclick="deleteTask('${t.id}')">Löschen</button></td></tr>`).join('')
+    + `</tbody></table>`;
+}
+
+function updateFilters() {
+  const students = [...new Set(results.map(r => r.student))];
+  const sel = document.getElementById('filter-student');
+  const cur = sel.value;
+  sel.innerHTML = '<option value="">Alle Schüler</option>' + students.map(s => `<option value="${s}" ${s === cur ? 'selected' : ''}>${s}</option>`).join('');
+  const tsel = document.getElementById('filter-task');
+  const tcur = tsel.value;
+  tsel.innerHTML = '<option value="">Alle Aufgaben</option>' + tasks.map(t => `<option value="${t.id}" ${t.id === tcur ? 'selected' : ''}>${t.text}</option>`).join('');
+}
+
+function renderResults() {
+  const fs = document.getElementById('filter-student').value;
+  const ft = document.getElementById('filter-task').value;
+  let filtered = results;
+  if (fs) filtered = filtered.filter(r => r.student === fs);
+  if (ft) filtered = filtered.filter(r => r.taskId === ft);
+  const div = document.getElementById('results-table');
+  if (!filtered.length) { div.innerHTML = '<p class="empty">Noch keine Abgaben.</p>'; return; }
+  div.innerHTML = `<table><thead><tr>
+    <th style="width:20%">Schüler</th><th style="width:30%">Aufgabe</th>
+    <th style="width:15%">Antwort</th><th style="width:13%">Status</th><th style="width:22%">Zeit</th>
+  </tr></thead><tbody>`
+    + filtered.slice().sort((a, b) => a.student.localeCompare(b.student)).map(r => {
+      const task = tasks.find(t => t.id === r.taskId);
+      const correct = task && r.answer == task.answer;
+      return `<tr>
+        <td>${r.student}</td><td>${task ? task.text : r.taskId}</td>
+        <td style="font-family:monospace;">${r.answer}</td>
+        <td><span class="pill ${correct ? 'ok' : 'bad'}">${correct ? 'Richtig' : 'Falsch'}</span></td>
+        <td style="font-size:11px;color:var(--text3);">${r.time}</td>
+      </tr>`;
+    }).join('') + `</tbody></table>`;
+}
+</script>
+</body>
+</html>
