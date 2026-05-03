@@ -329,7 +329,10 @@ function setupCanvas(taskId,canvas){
   function pos(e){
     const r=canvas.getBoundingClientRect();
     const src=e.touches?e.touches[0]:e;
-    return {x:src.clientX-r.left, y:src.clientY-r.top};
+    return {
+      x:(src.clientX-r.left)*canvas.width/r.width/dpr,
+      y:(src.clientY-r.top)*canvas.height/r.height/dpr
+    };
   }
 
   canvas.addEventListener('mousedown',e=>{
