@@ -330,8 +330,8 @@ function setupCanvas(taskId,canvas){
     const r=canvas.getBoundingClientRect();
     const src=e.touches?e.touches[0]:e;
     return {
-      x:(src.clientX-r.left)*canvas.width/r.width/dpr,
-      y:(src.clientY-r.top)*canvas.height/r.height/dpr
+      x:src.clientX-r.left,
+      y:src.clientY-r.top
     };
   }
 
