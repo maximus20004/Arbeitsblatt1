@@ -5,41 +5,19 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Mathe-Klassen-App</title>
 
-// Import the functions you need from the SDKs you need
-import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
-
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
-const firebaseConfig = {
-  apiKey: "AIzaSyDj6zotxKjmfpY2XK_2zMS_z0xzmhmVmF4",
-  authDomain: "arbeitsblatt1-9dc45.firebaseapp.com",
-  projectId: "arbeitsblatt1-9dc45",
-  storageBucket: "arbeitsblatt1-9dc45.firebasestorage.app",
-  messagingSenderId: "46180644088",
-  appId: "1:46180644088:web:5bcdbe793e5355ab00370d",
-  measurementId: "G-4SE18F8Y3R"
-};
-
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
   import { getDatabase, ref, set, get, onValue, remove } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
 
   const firebaseConfig = {
-    apiKey: "DEIN_API_KEY",
-    authDomain: "DEIN_PROJEKT.firebaseapp.com",
-    databaseURL: "https://DEIN_PROJEKT-default-rtdb.europe-west1.firebasedatabase.app",
-    projectId: "DEIN_PROJEKT",
-    storageBucket: "DEIN_PROJEKT.appspot.com",
-    messagingSenderId: "DEINE_SENDER_ID",
-    appId: "DEINE_APP_ID"
+    apiKey: "AIzaSyDj6zotxKjmfpY2XK_2zMS_z0xzmhmVmF4",
+    authDomain: "arbeitsblatt1-9dc45.firebaseapp.com",
+    databaseURL: "https://arbeitsblatt1-9dc45-default-rtdb.europe-west1.firebasedatabase.app",
+    projectId: "arbeitsblatt1-9dc45",
+    storageBucket: "arbeitsblatt1-9dc45.firebasestorage.app",
+    messagingSenderId: "46180644088",
+    appId: "1:46180644088:web:5bcdbe793e5355ab00370d"
   };
-  // ============================================================
 
   const app = initializeApp(firebaseConfig);
   const db = getDatabase(app);
@@ -79,13 +57,10 @@ const analytics = getAnalytics(app);
   .container { max-width: 720px; margin: 0 auto; padding: 1.5rem 1rem; }
   .nav { display: flex; gap: 8px; margin-bottom: 1.5rem; }
   .nav button { flex: 1; padding: 10px; border-radius: var(--radius); border: 0.5px solid var(--border2); background: var(--bg); color: var(--text2); font-size: 14px; cursor: pointer; transition: background 0.15s; }
-  .nav button.active { background: var(--bg2); color: var(--text); font-weight: 500; border-color: var(--border2); }
+  .nav button.active { background: var(--bg2); color: var(--text); font-weight: 500; }
   .card { background: var(--bg); border: 0.5px solid var(--border); border-radius: var(--radius-lg); padding: 1.25rem; margin-bottom: 1rem; }
   .section-title { font-size: 11px; font-weight: 500; color: var(--text3); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 0.75rem; }
-  input[type=text], input[type=password], input[type=number], select {
-    width: 100%; padding: 8px 10px; border: 0.5px solid var(--border2); border-radius: var(--radius);
-    background: var(--bg); color: var(--text); font-size: 14px; outline: none;
-  }
+  input[type=text], input[type=password], input[type=number], select { width: 100%; padding: 8px 10px; border: 0.5px solid var(--border2); border-radius: var(--radius); background: var(--bg); color: var(--text); font-size: 14px; outline: none; }
   input:focus, select:focus { border-color: #378ADD; box-shadow: 0 0 0 2px rgba(55,138,221,0.15); }
   button.btn { padding: 8px 16px; border-radius: var(--radius); border: 0.5px solid var(--border2); background: var(--bg2); color: var(--text); font-size: 13px; cursor: pointer; white-space: nowrap; transition: background 0.15s; }
   button.btn:hover { background: var(--bg3); }
@@ -126,13 +101,11 @@ const analytics = getAnalytics(app);
 <body>
 <div class="container">
   <h1>Mathe-Klassen-App</h1>
-
   <div class="nav">
     <button class="active" id="btn-student" onclick="switchView('student')">Schüler-Ansicht</button>
     <button id="btn-teacher" onclick="switchView('teacher')">Lehrer-Ansicht</button>
   </div>
 
-  <!-- SCHÜLER -->
   <div id="view-student">
     <div class="card">
       <div class="section-title">Name eingeben</div>
@@ -152,7 +125,6 @@ const analytics = getAnalytics(app);
     <div id="no-tasks-msg" class="hidden" style="color:var(--text3);font-size:14px;padding:1rem 0;">Noch keine Aufgaben vorhanden. Bitte warten.</div>
   </div>
 
-  <!-- LEHRER -->
   <div id="view-teacher" class="hidden">
     <div id="pw-screen">
       <div class="pw-wrap">
@@ -168,16 +140,13 @@ const analytics = getAnalytics(app);
         </div>
       </div>
     </div>
-
     <div id="teacher-content" class="hidden">
       <div class="sync-bar">
         <div class="dot" id="sync-dot"></div>
         <span id="sync-label">Verbinde mit Firebase…</span>
         <button class="btn-sm" style="margin-left:auto;" onclick="teacherLogout()">Abmelden</button>
       </div>
-
       <div class="stats" id="stats"></div>
-
       <div class="card">
         <div class="section-title">Neue Aufgabe hinzufügen</div>
         <div class="row" style="margin-bottom:8px;">
@@ -187,7 +156,6 @@ const analytics = getAnalytics(app);
         </div>
         <div id="task-manage"></div>
       </div>
-
       <div class="card">
         <div class="section-title">Passwort ändern</div>
         <div class="row">
@@ -197,7 +165,6 @@ const analytics = getAnalytics(app);
         </div>
         <div id="pw-change-msg"></div>
       </div>
-
       <div class="card">
         <div class="section-title">Ergebnisse der Schüler</div>
         <div class="row" style="margin-bottom:1rem;flex-wrap:wrap;">
@@ -210,18 +177,15 @@ const analytics = getAnalytics(app);
     </div>
   </div>
 </div>
-
 <script>
 let tasks = [], results = [], teacherAuthed = false, currentStudent = '';
 let unsubTasks = null, unsubResults = null;
-
 const DEFAULT_PW = 'lehrer123';
 
 function waitForDb(fn) {
   if (window._dbReady) fn();
   else document.addEventListener('db-ready', fn, { once: true });
 }
-
 function dbRef(path) { return window._ref(window._db, path); }
 async function dbSet(path, val) { await window._set(dbRef(path), val); }
 async function dbGet(path) { return (await window._get(dbRef(path))).val(); }
@@ -308,14 +272,8 @@ function setName() {
   document.getElementById('logged-name').textContent = n;
   document.getElementById('name-form').style.display = 'none';
   waitForDb(() => {
-    dbListen('tasks', data => {
-      tasks = data ? Object.values(data) : [];
-      renderTaskList();
-    });
-    dbListen('results', data => {
-      results = data ? Object.values(data) : [];
-      renderTaskList();
-    });
+    dbListen('tasks', data => { tasks = data ? Object.values(data) : []; renderTaskList(); });
+    dbListen('results', data => { results = data ? Object.values(data) : []; renderTaskList(); });
   });
 }
 
@@ -335,18 +293,8 @@ function renderTaskList() {
   noMsg.classList.add('hidden'); area.classList.remove('hidden');
   document.getElementById('task-list').innerHTML = tasks.map((task, i) => {
     const prev = results.find(r => r.student === currentStudent && r.taskId === task.id);
-    const feedbackHtml = prev
-      ? `<span class="feedback ${prev.answer == task.answer ? 'ok' : 'bad'}">${prev.answer == task.answer ? '✓ Richtig' : `✗ Deine Antwort: ${prev.answer}`}</span>`
-      : '';
-    return `<div class="task-card">
-      <div class="task-num">Aufgabe ${i + 1}</div>
-      <div class="task-text">${task.text}</div>
-      <div class="row">
-        <input type="number" id="ans-${task.id}" placeholder="Antwort…" style="width:130px;" ${prev ? `value="${prev.answer}"` : ''} />
-        <button class="btn" onclick="submitAnswer('${task.id}')">Abgeben</button>
-        <span id="fb-${task.id}">${feedbackHtml}</span>
-      </div>
-    </div>`;
+    const feedbackHtml = prev ? `<span class="feedback ${prev.answer == task.answer ? 'ok' : 'bad'}">${prev.answer == task.answer ? '✓ Richtig' : '✗ Deine Antwort: ' + prev.answer}</span>` : '';
+    return `<div class="task-card"><div class="task-num">Aufgabe ${i+1}</div><div class="task-text">${task.text}</div><div class="row"><input type="number" id="ans-${task.id}" placeholder="Antwort…" style="width:130px;" ${prev ? 'value="'+prev.answer+'"' : ''} /><button class="btn" onclick="submitAnswer('${task.id}')">Abgeben</button><span id="fb-${task.id}">${feedbackHtml}</span></div></div>`;
   }).join('');
 }
 
@@ -375,10 +323,8 @@ async function addTask() {
 async function deleteTask(id) {
   if (!confirm('Aufgabe und alle zugehörigen Ergebnisse löschen?')) return;
   await dbRemove('tasks/' + id);
-  const toDelete = results.filter(r => r.taskId === id);
-  for (const r of toDelete) {
-    const key = r.student.replace(/[^a-zA-Z0-9]/g, '_') + '__' + id;
-    await dbRemove('results/' + key);
+  for (const r of results.filter(r => r.taskId === id)) {
+    await dbRemove('results/' + r.student.replace(/[^a-zA-Z0-9]/g, '_') + '__' + id);
   }
 }
 
@@ -387,40 +333,27 @@ async function clearResults() {
   await dbRemove('results');
 }
 
-function renderTeacher() {
-  renderStats();
-  renderTaskManage();
-  updateFilters();
-  renderResults();
-}
+function renderTeacher() { renderStats(); renderTaskManage(); updateFilters(); renderResults(); }
 
 function renderStats() {
   const students = [...new Set(results.map(r => r.student))];
   const correct = results.filter(r => { const t = tasks.find(t => t.id === r.taskId); return t && r.answer == t.answer; });
   const pct = results.length ? Math.round(correct.length / results.length * 100) : 0;
-  document.getElementById('stats').innerHTML = `
-    <div class="stat"><div class="stat-label">Schüler</div><div class="stat-val">${students.length}</div></div>
-    <div class="stat"><div class="stat-label">Aufgaben</div><div class="stat-val">${tasks.length}</div></div>
-    <div class="stat"><div class="stat-label">Abgaben</div><div class="stat-val">${results.length}</div></div>
-    <div class="stat"><div class="stat-label">Korrekt</div><div class="stat-val">${pct}%</div></div>`;
+  document.getElementById('stats').innerHTML = `<div class="stat"><div class="stat-label">Schüler</div><div class="stat-val">${students.length}</div></div><div class="stat"><div class="stat-label">Aufgaben</div><div class="stat-val">${tasks.length}</div></div><div class="stat"><div class="stat-label">Abgaben</div><div class="stat-val">${results.length}</div></div><div class="stat"><div class="stat-label">Korrekt</div><div class="stat-val">${pct}%</div></div>`;
 }
 
 function renderTaskManage() {
   const div = document.getElementById('task-manage');
   if (!tasks.length) { div.innerHTML = '<p class="empty" style="margin-top:8px;">Noch keine Aufgaben.</p>'; return; }
-  div.innerHTML = `<table style="margin-top:0.75rem;"><thead><tr><th style="width:8%">#</th><th style="width:52%">Aufgabe</th><th style="width:20%">Lösung</th><th style="width:20%"></th></tr></thead><tbody>`
-    + tasks.map((t, i) => `<tr><td>${i + 1}</td><td>${t.text}</td><td style="font-family:monospace;">${t.answer}</td><td><button class="btn-sm" onclick="deleteTask('${t.id}')">Löschen</button></td></tr>`).join('')
-    + `</tbody></table>`;
+  div.innerHTML = `<table style="margin-top:0.75rem;"><thead><tr><th style="width:8%">#</th><th style="width:52%">Aufgabe</th><th style="width:20%">Lösung</th><th style="width:20%"></th></tr></thead><tbody>${tasks.map((t,i)=>`<tr><td>${i+1}</td><td>${t.text}</td><td style="font-family:monospace;">${t.answer}</td><td><button class="btn-sm" onclick="deleteTask('${t.id}')">Löschen</button></td></tr>`).join('')}</tbody></table>`;
 }
 
 function updateFilters() {
   const students = [...new Set(results.map(r => r.student))];
-  const sel = document.getElementById('filter-student');
-  const cur = sel.value;
-  sel.innerHTML = '<option value="">Alle Schüler</option>' + students.map(s => `<option value="${s}" ${s === cur ? 'selected' : ''}>${s}</option>`).join('');
-  const tsel = document.getElementById('filter-task');
-  const tcur = tsel.value;
-  tsel.innerHTML = '<option value="">Alle Aufgaben</option>' + tasks.map(t => `<option value="${t.id}" ${t.id === tcur ? 'selected' : ''}>${t.text}</option>`).join('');
+  const sel = document.getElementById('filter-student'); const cur = sel.value;
+  sel.innerHTML = '<option value="">Alle Schüler</option>' + students.map(s=>`<option value="${s}" ${s===cur?'selected':''}>${s}</option>`).join('');
+  const tsel = document.getElementById('filter-task'); const tcur = tsel.value;
+  tsel.innerHTML = '<option value="">Alle Aufgaben</option>' + tasks.map(t=>`<option value="${t.id}" ${t.id===tcur?'selected':''}>${t.text}</option>`).join('');
 }
 
 function renderResults() {
@@ -431,20 +364,7 @@ function renderResults() {
   if (ft) filtered = filtered.filter(r => r.taskId === ft);
   const div = document.getElementById('results-table');
   if (!filtered.length) { div.innerHTML = '<p class="empty">Noch keine Abgaben.</p>'; return; }
-  div.innerHTML = `<table><thead><tr>
-    <th style="width:20%">Schüler</th><th style="width:30%">Aufgabe</th>
-    <th style="width:15%">Antwort</th><th style="width:13%">Status</th><th style="width:22%">Zeit</th>
-  </tr></thead><tbody>`
-    + filtered.slice().sort((a, b) => a.student.localeCompare(b.student)).map(r => {
-      const task = tasks.find(t => t.id === r.taskId);
-      const correct = task && r.answer == task.answer;
-      return `<tr>
-        <td>${r.student}</td><td>${task ? task.text : r.taskId}</td>
-        <td style="font-family:monospace;">${r.answer}</td>
-        <td><span class="pill ${correct ? 'ok' : 'bad'}">${correct ? 'Richtig' : 'Falsch'}</span></td>
-        <td style="font-size:11px;color:var(--text3);">${r.time}</td>
-      </tr>`;
-    }).join('') + `</tbody></table>`;
+  div.innerHTML = `<table><thead><tr><th style="width:20%">Schüler</th><th style="width:30%">Aufgabe</th><th style="width:15%">Antwort</th><th style="width:13%">Status</th><th style="width:22%">Zeit</th></tr></thead><tbody>${filtered.slice().sort((a,b)=>a.student.localeCompare(b.student)).map(r=>{const task=tasks.find(t=>t.id===r.taskId);const correct=task&&r.answer==task.answer;return `<tr><td>${r.student}</td><td>${task?task.text:r.taskId}</td><td style="font-family:monospace;">${r.answer}</td><td><span class="pill ${correct?'ok':'bad'}">${correct?'Richtig':'Falsch'}</span></td><td style="font-size:11px;color:var(--text3);">${r.time}</td></tr>`;}).join('')}</tbody></table>`;
 }
 </script>
 </body>
