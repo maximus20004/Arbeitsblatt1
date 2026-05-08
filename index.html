@@ -89,7 +89,7 @@
 
   /* Canvas / Zeichenfeld */
   .canvas-wrap { margin: 0.75rem 0 0.5rem; border-radius: var(--radius); border: 0.5px solid var(--border2); background: #fff; line-height: 0; }
-  .canvas-wrap canvas { display: block; width: 100%; height: 160px; touch-action: none; cursor: crosshair; }
+  .canvas-wrap canvas { display: block; width: 100%; height: auto; touch-action: none; cursor: crosshair; }
   .canvas-toolbar { display: flex; gap: 6px; align-items: center; margin-bottom: 0.5rem; flex-wrap: wrap; }
   .color-btn { width: 22px; height: 22px; border-radius: 50%; border: 2px solid transparent; cursor: pointer; flex-shrink: 0; }
   .color-btn.active { border-color: var(--text); }
@@ -301,57 +301,46 @@ function initCanvas(taskId){
   if(canvases[taskId]) return;
   const canvas=document.getElementById('canvas-'+taskId);
   if(!canvas) return;
-  // Wait until element has layout
-  setTimeout(()=>setupCanvas(taskId,canvas), 100);
-}
 
-function setupCanvas(taskId,canvas){
-  if(canvases[taskId]) return;
-  const w=canvas.offsetWidth||canvas.parentElement.offsetWidth||600;
-  const h=160;
-  canvas.width=w;
-  canvas.height=h;
-  canvas.style.width=w+'px';
-  canvas.style.height=h+'px';
+  // Use fixed internal resolution; CSS handles visual size
+  canvas.width=600;
+  canvas.height=240;
 
   const ctx=canvas.getContext('2d');
-  ctx.lineCap='round';
-  ctx.lineJoin='round';
-  ctx.strokeStyle='#1a1a18';
-  ctx.lineWidth=3;
-
+  ctx.lineCap='round'; ctx.lineJoin='round';
   const state={drawing:false,color:'#1a1a18',size:3,ctx};
   canvases[taskId]=state;
 
-  function pos(e){
+  function xy(e){
     const r=canvas.getBoundingClientRect();
-    const src=e.touches?e.touches[0]:e;
-    return {x:src.clientX-r.left, y:src.clientY-r.top};
+    const s=e.touches?e.touches[0]:e;
+    // Scale from CSS pixels to canvas pixels
+    const scaleX=canvas.width/r.width;
+    const scaleY=canvas.height/r.height;
+    return [(s.clientX-r.left)*scaleX, (s.clientY-r.top)*scaleY];
   }
 
-  canvas.addEventListener('mousedown',e=>{
+  canvas.onmousedown=e=>{
     state.drawing=true;
     ctx.strokeStyle=state.color; ctx.lineWidth=state.size;
-    const p=pos(e); ctx.beginPath(); ctx.moveTo(p.x,p.y);
-  });
-  document.addEventListener('mousemove',e=>{
+    const[x,y]=xy(e); ctx.beginPath(); ctx.moveTo(x,y);
+  };
+  window.addEventListener('mousemove',e=>{
     if(!state.drawing) return;
-    const p=pos(e); ctx.lineTo(p.x,p.y); ctx.stroke();
+    const[x,y]=xy(e); ctx.lineTo(x,y); ctx.stroke();
   });
-  document.addEventListener('mouseup',()=>{ state.drawing=false; });
+  window.addEventListener('mouseup',()=>{state.drawing=false;});
 
-  canvas.addEventListener('touchstart',e=>{
-    e.preventDefault();
-    state.drawing=true;
+  canvas.ontouchstart=e=>{
+    e.preventDefault(); state.drawing=true;
     ctx.strokeStyle=state.color; ctx.lineWidth=state.size;
-    const p=pos(e); ctx.beginPath(); ctx.moveTo(p.x,p.y);
-  },{passive:false});
-  canvas.addEventListener('touchmove',e=>{
-    e.preventDefault();
-    if(!state.drawing) return;
-    const p=pos(e); ctx.lineTo(p.x,p.y); ctx.stroke();
-  },{passive:false});
-  canvas.addEventListener('touchend',()=>{ state.drawing=false; });
+    const[x,y]=xy(e); ctx.beginPath(); ctx.moveTo(x,y);
+  };
+  canvas.ontouchmove=e=>{
+    e.preventDefault(); if(!state.drawing) return;
+    const[x,y]=xy(e); ctx.lineTo(x,y); ctx.stroke();
+  };
+  canvas.ontouchend=()=>{state.drawing=false;};
 }
 
 function setColor(taskId,color,btn){
@@ -371,10 +360,10 @@ function setSize(taskId,size,btn){
   btn.classList.add('active');
 }
 function clearCanvas(taskId){
-  const state=canvases[taskId];
-  if(!state) return;
-  const {ctx,canvas,dpr}=state;
-  ctx.clearRect(0,0,canvas.width/dpr,canvas.height/dpr);
+  const canvas=document.getElementById('canvas-'+taskId);
+  if(!canvas) return;
+  const ctx=canvas.getContext('2d');
+  ctx.clearRect(0,0,canvas.width,canvas.height);
 }
 function getCanvasData(taskId){
   const canvas=document.getElementById('canvas-'+taskId);
@@ -411,18 +400,20 @@ function renderTaskList(){
         <button class="color-btn" style="background:#2563eb;" onclick="setColor('${task.id}','#2563eb',this)" title="Blau"></button>
         <button class="color-btn" style="background:#dc2626;" onclick="setColor('${task.id}','#dc2626',this)" title="Rot"></button>
         <button class="color-btn" style="background:#16a34a;" onclick="setColor('${task.id}','#16a34a',this)" title="Grün"></button>
+        <button class="color-btn" style="background:#ffffff;border:1px solid #ccc;" onclick="setColor('${task.id}','#ffffff',this)" title="Radiergummi">✎</button>
         <button class="size-btn active" onclick="setSize('${task.id}',3,this)">S</button>
         <button class="size-btn" onclick="setSize('${task.id}',6,this)">M</button>
         <button class="size-btn" onclick="setSize('${task.id}',12,this)">L</button>
-        <button class="btn-sm" style="margin-left:auto;" onclick="clearCanvas('${task.id}')">Löschen</button>
+        <button class="btn-sm" style="margin-left:auto;" onclick="clearCanvas('${task.id}')">Alles löschen</button>
       </div>
       <div class="canvas-wrap"><canvas id="canvas-${task.id}"></canvas></div>
       ${prevImg}
     </div>`;
   }).join('');
-  tasks.forEach(task=>{
-    initCanvas(task.id);
-  });
+  // Init canvas AFTER area is visible and layout is complete
+  setTimeout(()=>{
+    tasks.forEach(task=>initCanvas(task.id));
+  }, 50);
 }
 
 // ── Submit answer ──
